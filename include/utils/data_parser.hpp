@@ -500,6 +500,11 @@ class dataParser
 
     while (std::getline(ss, s, delim_))
     {
+      if (s == "#")
+      {
+        continue;
+      }
+
       if (s.back() == '\r')
       {
         s.pop_back();
