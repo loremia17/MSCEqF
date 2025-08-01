@@ -122,7 +122,7 @@ class Propagator
    *
    * @param X Actual state estimate
    * @param xi0 Origin
-   * @return Discrete time process noise covariance matrix
+   * @return Discrete time process noise covariance matrix B
    */
   const MatrixX inputMatrix(MSCEqFState& X, const SystemState& xi0) const;
 

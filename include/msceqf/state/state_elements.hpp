@@ -99,7 +99,7 @@ class MSCEqFStateElement
   /**
    * @brief Construct a MSCEqFStateElement object
    *
-   * @param idx  Starting index of the element in the residual, and in the covariance
+   * @param idx Starting index of the element in the residual, and in the covariance
    * @param dof Degrees of freedom of the element (dimension of relative covariance and residual block)
    */
   MSCEqFStateElement(const uint& idx, const uint& dof) : idx_(idx), dof_(dof){};
