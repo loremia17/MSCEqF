@@ -263,6 +263,10 @@ TEST(SystemStateTest, SystemStateConstructionTest)
     }
   }
 
+#ifdef NDEBUG
+  // Skip death test in release builds
+  GTEST_SKIP() << "Death tests in Debug builds";
+#else
   // Assertation tests
   {
     ASSERT_DEATH(
@@ -273,6 +277,7 @@ TEST(SystemStateTest, SystemStateConstructionTest)
         },
         "");
   }
+#endif
 }
 
 TEST(MSCEqFStateTest, MSCEqFStateConstructionTest)

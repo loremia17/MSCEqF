@@ -57,7 +57,7 @@ $ git clone https://github.com/aau-cns/MSCEqF.git msceqf
 $ cd msceqf
 $ export BUILD_TYPE=<TYPE>  # Replace <TYPE> with one of these: Release, Debug, RelWithDebInfo, ...
 $ mkdir -p build/$BUILD_TYPE
-$ cd build/$BUILD_TYPE && cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTS=ON ../..
+$ cd build/$BUILD_TYPE && cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DMSCEQF_TESTS=ON ../..
 $ cmake --build . --config $BUILD_TYPE --target all -j && cd ../..
 ```
 
