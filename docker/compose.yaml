@@ -1,0 +1,13 @@
+services:
+  msceqf:
+    image: msceqf:ros${ROS_VERSION}
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all # need if using Nvidia drivers
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    runtime: nvidia # need if using Nvidia drivers
+    stdin_open: true
+    tty: true
