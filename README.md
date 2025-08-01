@@ -78,38 +78,41 @@ $ ./msceqf_euroc <sequence_name> <euroc_dataset_folder> <euroc_example_folder>
 
 ### ROS1 setup
 ```sh
-$ cd ws/src
-$ git clone https://github.com/aau-cns/MSCEqF.git msceqf
-$ cd msceqf
+$ git clone https://github.com/aau-cns/MSCEqF.git ~/ws/src/msceqf
+$ cd ~/ws
 $ export BUILD_TYPE=<TYPE>  # Replace <TYPE> with one of these: Release, Debug, RelWithDebInfo, ...
 $ catkin build -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DROS_BUILD=ON
 ```
 
 ### ROS2 setup
 ```sh
-$ cd ws/src
-$ git clone https://github.com/aau-cns/MSCEqF.git msceqf
-$ cd msceqf
+$ git clone https://github.com/aau-cns/MSCEqF.git ~/ws/src/msceqf
+$ cd ~/ws
 $ export BUILD_TYPE=<TYPE>  # Replace <TYPE> with one of these: Release, Debug, RelWithDebInfo, ...
 $ colcon build --event-handlers console_cohesion+ --cmake-args -DCMAKE_BUILD_TYPE=$BUILD_TYPE --cmake-args -DROS_BUILD=ON
 ```
 
 ### Docker setup
+To setup Docker with Nvidia drivers install nvidia-toolkit first
 ```sh
+$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID) && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 $ sudo apt update
-$ sudo apt install -y nvidia-docker2
+$ sudo apt-get install -y nvidia-container-toolkit
+```
+Then build and run the docker container
+```sh
 $ sudo systemctl restart docker
 $ cd <path_to_msceqf_folder>
 $ export ROS_VERSION=<Version>  # Enter either 1 or 2 (e.g. ROS_VERSION=1)
-$ docker build --network=host -t msceqf:ros$ROS_VERSION -f docker/Dockerfile_ros$ROS_VERSION
+$ docker build --network=host -t msceqf:ros$ROS_VERSION -f docker/Dockerfile_ros$ROS_VERSION .
 $ xhost +
-$ docker run --net=host -it --gpus all --env="NVIDIA_DRIVER_CAPABILITIES=all" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" msceqf:ros$ROS_VERSION .
+$ docker run --net=host -it --gpus all --env="NVIDIA_DRIVER_CAPABILITIES=all" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" msceqf:ros$ROS_VERSION
 ```
 
-If Nvidia drivere are not supported, simply run docker as follows
+If Nvidia drivers are not supported, simply run docker as follows
 
 ```sh
-$ docker run --net=host -it --gpus all --env="NVIDIA_DRIVER_CAPABILITIES=all" --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" msceqf:ros$ROS_VERSION .
+docker run --net=host -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" msceqf:ros$ROS_VERSION
 ```
 
 ## Usage with custom dataset and/or with ROS
@@ -139,7 +142,7 @@ extrinsics_std: [1.0e-2, 1.0e-2, 1.0e-2, 1.0e-2, 1.0e-2, 1.0e-2]
 intrinsics_std: [1.0, 1.0, 1.0, 1.0]
 
 # IMU noise statistics
-accelerometer_noise_density: 1.0-2
+accelerometer_noise_density: 1.0e-2
 accelerometer_random_walk:   1.0e-3
 gyroscope_noise_density: 1.0e-3
 gyroscope_random_walk:   1.0e-4
